@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgresql-server
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DATA_PATH}:/var/lib/postgresql/data
+
+    deploy:
+      resources:
+        limits:
+          memory: 2048M    # 内存上限
+          cpus: '2.0' 
