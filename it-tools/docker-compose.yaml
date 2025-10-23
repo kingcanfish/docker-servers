@@ -1,0 +1,9 @@
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    container_name: it-tools
+    restart: unless-stopped
+    ports:
+      - "20001:80"
+    mem_limit: 128m
+    cpus: 0.2

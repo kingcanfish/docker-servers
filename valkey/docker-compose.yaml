@@ -1,0 +1,23 @@
+services:
+  valkey:
+    image: valkey/valkey:alpine
+    container_name: valkey-server
+    command: >
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/docker-servers-data/:/data
+    restart: unless-stopped
+    # 资源限制配置
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
