@@ -1,0 +1,14 @@
+services:
+  samba:
+    image: dockurr/samba
+    container_name: samba
+    environment:
+      NAME: "Data"
+      USER: ${USER}
+      PASS: ${PASS}
+    ports:
+      - 445:445
+    volumes:
+      - ./smb.conf:/etc/samba/smb.conf
+      - ${DATA_PATH}:/storage
+    restart: unless-stopped
