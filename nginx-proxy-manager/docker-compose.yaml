@@ -9,5 +9,5 @@ services:
       - DISABLE_IPV6=false
       - NPM_PORT=81    # 将管理端口改为 82
     volumes:
-      - ./data/data:/data
-      - ./data/letsencrypt:/etc/letsencrypt
+      - ${DATA_PATH}/data:/data
+      - ${DATA_PATH}/letsencrypt:/etc/letsencrypt
