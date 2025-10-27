@@ -1,0 +1,24 @@
+services:
+  consul-server:
+    image: hashicorp/consul
+    container_name: consul-server
+    restart: unless-stopped
+    hostname: consul-server
+    volumes:
+      - ${DATA_PATH}:/consul/data
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command: >
+      agent -server 
+      -node=server-1
+      -ui
+      -bootstrap-expect=1 
+      -client=0.0.0.0 
+    networks:
+      - consul-network
+
+networks:
+  consul-network:
+    driver: bridge
