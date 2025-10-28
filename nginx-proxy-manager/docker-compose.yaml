@@ -3,11 +3,17 @@ services:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
     restart: unless-stopped
-    network_mode: host
     environment:
       - DB_SQLITE_FILE=/data/database.sqlite
       - DISABLE_IPV6=false
-      - NPM_PORT=81    # 将管理端口改为 82
+      - NPM_PORT=81    # 将管理端口改为 81
     volumes:
       - ${DATA_PATH}/data:/data
       - ${DATA_PATH}/letsencrypt:/etc/letsencrypt
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
