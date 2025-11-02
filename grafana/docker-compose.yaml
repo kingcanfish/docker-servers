@@ -1,0 +1,18 @@
+services:
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    user: '0'
+    ports:
+      - "20031:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ${DATA_PATH}:/var/lib/grafana
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 300M
