@@ -6,3 +6,7 @@ services:
       - "6333:6333"
     volumes:
       - ${DATA_PATH}:/qdrant/storage
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
