@@ -1,0 +1,17 @@
+services:
+  risingwave:
+    # 对应原命令中的镜像名和标签
+    image: risingwavelabs/risingwave:latest
+    restart: unless-stopped
+    # 对应原命令中的 --pull=always
+    # 'always' 策略确保在每次启动时都拉取最新镜像
+    pull_policy: always
+    # 对应原命令中的 -p 4566:4566 -p 5691:5691
+    ports:
+      - "4566:4566"
+      - "5691:5691"
+    # 对应原命令中的 single_node
+    # 在 compose 中，command 用于覆盖镜像的默认启动命令
+    command: ["single_node"]
+    # 对应原命令中的 -it (交互式终端)
+    # 在 compose 中，通常需要加上 stdin_open 和 tty 来模拟交互模式
