@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  quarkdrive-webdav:
+    image: ghcr.io/chenqimiao/quarkdrive-webdav:latest
+    container_name: quarkdrive-webdav
+    restart: unless-stopped
+    ports:
+      - "20067:8080"
+    environment:
+      - QUARK_COOKIE=${QUARK_COOKIE}
+      - WEBDAV_AUTH_USER=${WEBDAV_AUTH_USER}
+      - WEBDAV_AUTH_PASSWORD=${WEBDAV_AUTH_PASSWORD}

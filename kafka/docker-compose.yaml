@@ -1,0 +1,41 @@
+services:
+  kafka:
+    image: apache/kafka:latest
+    restart: unless-stopped
+    container_name: kafka-server
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      # 1. 定义监听器名称
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      # 2. 绑定端口
+      - KAFKA_LISTENERS=EXTERNAL://:9092,INTERNAL://:9094,CONTROLLER://:9093
+      # 3. 告诉外界如何找到自己
+      - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://s.gxy.plus:9092,INTERNAL://kafka:9094
+      # 4. 【关键修复】指定 Broker 之间通信使用 INTERNAL 监听器
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+      # 5. Controller 相关配置
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
+      - KAFKA_KRAFT_CLUSTER_ID=6Mz9s9s9S9S9s9s9s9s9s9
+      # 6. 其他持久化与性能配置
+      - KAFKA_LOG_DIRS=/var/lib/kafka/data
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
+    volumes:
+      - ./kafka_data:/var/lib/kafka/data
+
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafka-ui
+    restart: unless-stopped
+    ports:
+      - "38080:8080"
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local-test
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9094
+      - DYNAMIC_CONFIG_ENABLED=true
